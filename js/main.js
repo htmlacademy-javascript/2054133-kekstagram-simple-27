@@ -1,41 +1,43 @@
 // Функция, возвращающая случайное целое число из переданного диапазона включительно.
 
-function returnsNumber(from,to) {
+function getRandomIntInclusive(a,b) {
+  a = Math.ceil(a);
+  b = Math.floor(b);
+  return Math.floor(Math.random() * (b - a + 1)) + a;
+}
+
+// Условия для возвращающия случайного числа
+
+function getPositiveRandomNumber(from, to) {
   if (!Number.isInteger(from) || !Number.isInteger(from)) {
     return NaN;
   }
 
-  else if (from < 0 || to < 0) {
+  if (from < 0 || to < 0) {
     return 'Значения не могут быть меньше нуля';
   }
 
-  else if (from === to && from >= 0 && to >= 0) {
+  if (from === to) {
     return from;
   }
 
-  else if (from > to) {
-    from = from + to;
-    to = from - to;
-    from = from - to;
+  if (from > to) {
+    return getRandomIntInclusive(to, from);
   }
 
-  from = Math.ceil(from);
-  to = Math.floor(to);
-  return Math.floor(Math.random() * (to - from + 1)) + from;
+  return getRandomIntInclusive(from, to);
 }
 
-const min = 'fs';
-const max = -1;
+const MIN_NUMBER = 44;
+const MAX_NUMBER = 1;
 
-returnsNumber(min,max);
-console.log(returnsNumber(min,max));
-
+getPositiveRandomNumber(MIN_NUMBER, MAX_NUMBER);
 
 //Функция для проверки максимальной длины строки.
 
-function checksMaxString(stroke,lenght) {
-  if (stroke <= lenght) {}
-  else {}
+function checkMaxString(stroke, lenght) {
+  if (stroke <= lenght) {
+    return 'Слишком длинная строка';
+  }
+  return 'Ок';
 }
-
-checksMaxString(stroke,lenght);
