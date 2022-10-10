@@ -41,11 +41,11 @@ console.log(getPositiveRandomNumber(MIN_NUMBER, MAX_NUMBER));
 
 //Функция для проверки максимальной длины строки.
 
-// function checkMaxString(stroke, lenght) {
-//   if (stroke <= lenght) {
-//     return 'Слишком длинная строка';
-//   }
-//   return 'Ок';
-// }
+function checkMaxString(stroke, lenght) {
+  if (stroke <= lenght) {
+    return 'Слишком длинная строка';
+  }
+  return 'Ок';
+}
 
-// checkMaxString(stroke, lenght);
+checkMaxString(stroke, lenght);
