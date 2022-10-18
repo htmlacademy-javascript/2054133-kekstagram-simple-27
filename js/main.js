@@ -6,40 +6,6 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (fullMax - fullMin + 1) + fullMin);
 }
 
-// Условия для возвращения случайного числа
-
-function getPositiveRandomNumber(from, to) {
-
-  if (!Number(from) || !Number(to)) {
-    return NaN;
-  }
-
-  if (from < 0 || to < 0) {
-    return 'Значения не могут быть меньше нуля';
-  }
-
-  if (from === to) {
-    if(Number.isInteger(from) && Number.isInteger(to)) {
-      return from;
-    }
-    return NaN;
-  }
-
-  if (from > to) {
-    return getRandomIntInclusive(to, from);
-  }
-
-  return getRandomIntInclusive(from, to);
-}
-
-getPositiveRandomNumber();
-
-//Функция для проверки максимальной длины строки.
-
-// const checkStringLength = (string, length) => string.length <= length;
-
-// checkStringLength();
-
 //Получаем рандомное число для id и url
 
 const INDEX_COUNT = 25;
