@@ -19,7 +19,7 @@ const likeCount = {
 
 //Описание фотографии
 
-const photoDescription = [
+const photoDescriptions = [
   'Расслабься и смотри',
   'Кусочек самого лучшего путешествия',
   'Неплохая локация для съемок',
@@ -58,7 +58,7 @@ const MAX_COMMENTS = 200;
 const createPicture = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
-  description: getRandomElement(photoDescription),
+  description: getRandomElement(photoDescriptions),
   likes: getRandomIntInclusive(likeCount.min, likeCount.max),
   comments: getRandomIntInclusive(0, MAX_COMMENTS),
 });
