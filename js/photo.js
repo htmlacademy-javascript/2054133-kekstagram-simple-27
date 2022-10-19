@@ -1,4 +1,4 @@
-import {getRandomIntInclusive, getRandomElement} from './util.js';
+import {getRandomIntInclusive, getRandomElement} from './utils.js';
 import {INDEX_COUNT, MAX_COMMENTS, likeCount, photoDescriptions} from './setup.js';
 
 const createPicture = (index) => ({
