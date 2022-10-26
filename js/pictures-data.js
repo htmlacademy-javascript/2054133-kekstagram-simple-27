@@ -17,4 +17,6 @@ const getPictures = () => {
   return pictures;
 };
 
-export {getPictures};
+const userPictures = getPictures();
+
+export {userPictures};
