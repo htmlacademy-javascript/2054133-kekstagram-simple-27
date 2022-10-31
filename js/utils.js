@@ -7,4 +7,5 @@ const getRandomIntInclusive = (min, max) => {
 
 const getRandomElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
 
+
 export {getRandomIntInclusive, getRandomElement};
