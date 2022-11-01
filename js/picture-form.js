@@ -2,13 +2,25 @@ const uploadFileInput = document.querySelector('#upload-file');
 const pageBody = document.querySelector('body');
 const modalPictureEditor = document.querySelector('.img-upload__overlay');
 const modalCloseButton = document.querySelector('#upload-cancel');
+const description = document.querySelector('.text__description');
+const pcitureForm = document.querySelector('.img-upload__form');
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const pristine = new Pristine(pcitureForm,{
+  classTo: 'text',
+  errorTextParent: 'text',
+  errorTextClass: 'text__error',
+}, false);
+
+pcitureForm.addEventListener('submit', (evt) => {
+  if (!pristine.validate()) {
+    evt.preventDefault();
+  }
+});
 
 const closeModal = () => {
   modalPictureEditor.classList.add('hidden');
   pageBody.classList.remove('modal-open');
-  uploadFileInput.value = '';
+  pristine.reset();
 };
 
 const openModal = () => {
@@ -16,6 +28,7 @@ const openModal = () => {
   pageBody.classList.add('modal-open');
 };
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
 const onModalEscKeyDown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -29,4 +42,4 @@ uploadFileInput.addEventListener('change', () => {
   modalCloseButton.addEventListener('click', closeModal);
 });
 
-
+description.addEventListener('keydown', (evt) => evt.stopPropagation());

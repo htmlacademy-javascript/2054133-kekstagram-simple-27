@@ -1,2 +1,2 @@
 import './create-user-pictures.js';
-import './form.js';
+import './picture-form.js';
