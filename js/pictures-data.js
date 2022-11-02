@@ -9,14 +9,14 @@ const createPicture = (index) => ({
   comments: getRandomIntInclusive(0, MAX_COMMENTS),
 });
 
-const getPictures = () => {
+const getPictures = (element) => {
   const pictures = [];
   for (let i = 1; i <= INDEX_COUNT; i++) {
-    pictures.push(createPicture(i));
+    pictures.push(element(i));
   }
   return pictures;
 };
 
-const userPictures = getPictures();
+const userPictures = getPictures(createPicture);
 
 export {userPictures};
