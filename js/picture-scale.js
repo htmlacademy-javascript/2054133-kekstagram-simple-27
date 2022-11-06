@@ -28,4 +28,4 @@ const onButtonBiggerClick = () => {
   scaleImage(newValue);
 };
 
-export {onButtonSmallerClick, onButtonBiggerClick};
+export {onButtonSmallerClick, onButtonBiggerClick, scaleImage};

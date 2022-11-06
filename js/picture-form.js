@@ -1,4 +1,4 @@
-import {onButtonSmallerClick, onButtonBiggerClick} from './picture-scale.js';
+import {onButtonSmallerClick, onButtonBiggerClick, scaleImage} from './picture-scale.js';
 
 const uploadFileInput = document.querySelector('#upload-file');
 const pageBody = document.querySelector('body');
@@ -21,6 +21,7 @@ const closeModal = () => {
   pageBody.classList.remove('modal-open');
   pristine.reset();
   document.removeEventListener('keydown', onModalEscKeyDown);
+  scaleImage(100);
 };
 
 const openModal = () => {
