@@ -98,8 +98,8 @@ const updateSlider = () => {
   const effectValue = slider.noUiSlider.get();
   previewImage.style.filter = `${choosenEffect.style}(${effectValue}${choosenEffect.type})`;
   previewImage.classList.add(`effects__preview--${choosenEffect.name}`);
-};
 
+};
 slider.noUiSlider.on('update', updateSlider);
 pcitureForm.addEventListener('change', onChange);
 
@@ -107,6 +107,7 @@ const clearEffect = () => {
   choosenEffect = DEFAULT_EFFECT;
   input.value = choosenEffect.max;
   updateSlider();
+  document.querySelector('.effects__radio').checked = true;
 };
 
 export {clearEffect};
