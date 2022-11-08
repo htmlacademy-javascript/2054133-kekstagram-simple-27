@@ -1,9 +1,12 @@
 const imageInputValue = document.querySelector('.scale__control--value');
-const imagePreview = document.querySelector('.img-upload__preview');
+const imagePreview = document.querySelector('.img-upload__preview').querySelector('img');
+const imageButtonScaleSmaller = document.querySelector('.scale__control--smaller');
+const imageButtonScaleBigger = document.querySelector('.scale__control--bigger');
 
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
 const SCALE_STEP = 25;
+const DEFAULT_VALUE = 100;
 
 const scaleImage = (value) => {
   imagePreview.style.transform = `scale(${value / 100})`;
@@ -28,4 +31,11 @@ const onButtonBiggerClick = () => {
   scaleImage(newValue);
 };
 
-export {onButtonSmallerClick, onButtonBiggerClick, scaleImage};
+imageButtonScaleSmaller.addEventListener('click', onButtonSmallerClick);
+imageButtonScaleBigger.addEventListener('click', onButtonBiggerClick);
+
+const resetScale = () => {
+  scaleImage(DEFAULT_VALUE);
+};
+
+export {resetScale};
