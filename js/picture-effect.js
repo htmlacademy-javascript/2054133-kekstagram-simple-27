@@ -74,39 +74,51 @@ const onSliderChange = () => {
     },
     start: choosenEffect.max,
     step: choosenEffect.step,});
-
-  if (choosenEffect === DEFAULT_EFFECT) {
-    slider.classList.add('hidden');
-  }
 };
 
-const onChange = (evt) => {
+const changeEffect = (evt) => {
+  choosenEffect = EFFECTS.find((effect) => evt.target.value === effect.name);
+};
+
+const onChangeForm = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  choosenEffect = EFFECTS.find((effect) => evt.target.value === effect.name);
-  onSliderChange(choosenEffect);
+  changeEffect(evt);
+  onSliderChange();
 };
 
-const updateSlider = () => {
+const isDefaultEffect = () => {
   if(choosenEffect === DEFAULT_EFFECT) {
     slider.classList.add('hidden');
   }
+};
+
+const getPrewieImageEffect = () => {
   previewImage.style.filter = '';
   previewImage.className = '';
-  input.value = slider.noUiSlider.get();
   const effectValue = slider.noUiSlider.get();
   previewImage.style.filter = `${choosenEffect.style}(${effectValue}${choosenEffect.type})`;
   previewImage.classList.add(`effects__preview--${choosenEffect.name}`);
-
 };
-slider.noUiSlider.on('update', updateSlider);
-pcitureForm.addEventListener('change', onChange);
+
+const getSliderInputValue = () => {
+  input.value = slider.noUiSlider.get();
+};
+
+const changeEffectSlider = () => {
+  isDefaultEffect();
+  getPrewieImageEffect();
+  getSliderInputValue();
+};
+
+slider.noUiSlider.on('update', changeEffectSlider);
+pcitureForm.addEventListener('change', onChangeForm);
 
 const clearEffect = () => {
   choosenEffect = DEFAULT_EFFECT;
   input.value = choosenEffect.max;
-  updateSlider();
+  changeEffectSlider();
   document.querySelector('.effects__radio').checked = true;
 };
 

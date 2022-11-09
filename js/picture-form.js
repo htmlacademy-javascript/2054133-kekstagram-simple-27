@@ -37,7 +37,6 @@ function onModalEscKeyDown(evt) {
     closeModal();
   }
 }
-
 const isValidate = (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
