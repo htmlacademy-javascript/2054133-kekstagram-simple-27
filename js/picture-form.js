@@ -1,52 +1,92 @@
 import {resetScale} from './picture-scale.js';
 import {clearEffect} from './picture-effect.js';
+import {isEscapeKey} from './utils.js';
+import {sendData} from './api.js';
+import {successModalMessage, errorModalMessage} from './modal-message.js';
 
-const uploadFileInput = document.querySelector('#upload-file');
+const uploadFileInput = document.querySelector('.img-upload__input');
 const pageBody = document.querySelector('body');
 const modalPictureEditor = document.querySelector('.img-upload__overlay');
-const modalCloseButton = document.querySelector('#upload-cancel');
+const modalCloseButton = document.querySelector('.img-upload__cancel');
 const description = document.querySelector('.text__description');
 const pcitureForm = document.querySelector('.img-upload__form');
+const submitButton = document.querySelector('.img-upload__submit');
+
+const unBlockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Опубликовываем..';
+};
+
+const resetUserFormValues = () => {
+  uploadFileInput.value = '';
+  description.value = '';
+  resetScale();
+  clearEffect();
+};
+
+const openUserForm = () => {
+  modalPictureEditor.classList.remove('hidden');
+  pageBody.classList.add('modal-open');
+};
 
 const pristine = new Pristine(pcitureForm,
   {
     classTo: 'text',
     errorTextParent: 'text',
   },
-  false);
+  true);
 
-const closeModal = () => {
+const closeUserForm = () => {
   modalPictureEditor.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   pristine.reset();
   document.removeEventListener('keydown', onModalEscKeyDown);
-  uploadFileInput.value = '';
-  resetScale();
-  clearEffect();
 };
 
-const openModal = () => {
-  modalPictureEditor.classList.remove('hidden');
-  pageBody.classList.add('modal-open');
-};
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
 function onModalEscKeyDown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeModal();
+    closeUserForm();
+    resetUserFormValues();
   }
 }
-const isValidate = (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
+
+pcitureForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValidate = pristine.validate();
+  if (isValidate) {
+    blockSubmitButton();
+    sendData(
+      () => {
+        unBlockSubmitButton();
+        successModalMessage();
+        closeUserForm();
+        resetUserFormValues();
+      },
+      () => {
+        unBlockSubmitButton();
+        errorModalMessage();
+        // closeUserForm();
+        document.removeEventListener('keydown', onModalEscKeyDown);
+      },
+      new FormData(evt.target),
+    );
   }
-};
+});
 
 uploadFileInput.addEventListener('change', () => {
-  openModal();
+  openUserForm();
   document.addEventListener('keydown', onModalEscKeyDown);
-  modalCloseButton.addEventListener('click', closeModal);
+  modalCloseButton.addEventListener('click', () => {
+    closeUserForm();
+    resetUserFormValues();
+  });
   description.addEventListener('keydown', (evt) => evt.stopPropagation());
-  pcitureForm.addEventListener('submit', isValidate);
 });
+
+export {onModalEscKeyDown};
