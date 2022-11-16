@@ -2,7 +2,7 @@ import {resetScale} from './picture-scale.js';
 import {clearEffect} from './picture-effect.js';
 import {isEscapeKey} from './utils.js';
 import {sendData} from './api.js';
-import {successModalMessage, errorModalMessage} from './modal-message.js';
+import {openSuccessModal, openErrorModal} from './modal-message.js';
 
 const uploadFileInput = document.querySelector('.img-upload__input');
 const pageBody = document.querySelector('body');
@@ -12,6 +12,14 @@ const description = document.querySelector('.text__description');
 const pcitureForm = document.querySelector('.img-upload__form');
 const submitButton = document.querySelector('.img-upload__submit');
 
+const pristine = new Pristine(pcitureForm,
+  {
+    classTo: 'img-upload__text',
+    errorTextParent: 'img-upload__text',
+    errorTextClass: 'text__error',
+  },
+  true);
+
 const unBlockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
@@ -19,7 +27,7 @@ const unBlockSubmitButton = () => {
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = 'Опубликовываем..';
+  submitButton.textContent = 'Публикуем..';
 };
 
 const resetUserFormValues = () => {
@@ -29,18 +37,6 @@ const resetUserFormValues = () => {
   clearEffect();
 };
 
-const openUserForm = () => {
-  modalPictureEditor.classList.remove('hidden');
-  pageBody.classList.add('modal-open');
-};
-
-const pristine = new Pristine(pcitureForm,
-  {
-    classTo: 'text',
-    errorTextParent: 'text',
-  },
-  true);
-
 const closeUserForm = () => {
   modalPictureEditor.classList.add('hidden');
   pageBody.classList.remove('modal-open');
@@ -48,31 +44,42 @@ const closeUserForm = () => {
   document.removeEventListener('keydown', onModalEscKeyDown);
 };
 
-function onModalEscKeyDown(evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
+const openUserForm = () => {
+  modalPictureEditor.classList.remove('hidden');
+  pageBody.classList.add('modal-open');
+  document.addEventListener('keydown', onModalEscKeyDown);
+  modalCloseButton.addEventListener('click', () => {
     closeUserForm();
     resetUserFormValues();
+  });
+  description.addEventListener('keydown', (evt) => evt.stopPropagation());
+};
+
+function onModalEscKeyDown(evt) {
+  const errorPopup = document.querySelector('.error');
+  if (isEscapeKey(evt)) {
+    if(!errorPopup) {
+      evt.preventDefault();
+      closeUserForm();
+      resetUserFormValues();
+    }
   }
 }
 
 pcitureForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const isValidate = pristine.validate();
-  if (isValidate) {
+  if (pristine.validate()) {
     blockSubmitButton();
     sendData(
       () => {
         unBlockSubmitButton();
-        successModalMessage();
+        openSuccessModal();
         closeUserForm();
         resetUserFormValues();
       },
       () => {
         unBlockSubmitButton();
-        errorModalMessage();
-        // closeUserForm();
-        document.removeEventListener('keydown', onModalEscKeyDown);
+        openErrorModal();
       },
       new FormData(evt.target),
     );
@@ -81,12 +88,6 @@ pcitureForm.addEventListener('submit', (evt) => {
 
 uploadFileInput.addEventListener('change', () => {
   openUserForm();
-  document.addEventListener('keydown', onModalEscKeyDown);
-  modalCloseButton.addEventListener('click', () => {
-    closeUserForm();
-    resetUserFormValues();
-  });
-  description.addEventListener('keydown', (evt) => evt.stopPropagation());
 });
 
 export {onModalEscKeyDown};

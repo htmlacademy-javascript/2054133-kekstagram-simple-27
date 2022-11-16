@@ -1,52 +1,44 @@
 import {isEscapeKey} from './utils.js';
-import {onModalEscKeyDown} from './picture-form.js';
 
-const picturesContainer = document.querySelector('.pictures');
-const messageFragment = document.createDocumentFragment();
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+
 const isModalOn = (evt) => evt.target.classList.contains('success__button') || evt.target.classList.contains('error__button') || evt.target.classList.contains('error') || evt.target.classList.contains('success');
 
-const removeModalMessage = () => {
-  const successModal = document.querySelector('.success');
-  const errorModal = document.querySelector('.error');
-  if(successModal) {
-    successModal.remove();
-  }
-  else if(errorModal) {
-    errorModal.remove();
-    document.addEventListener('keydown', onModalEscKeyDown);
-  }
-  picturesContainer.removeEventListener('click', onModalMessageClick);
-  document.removeEventListener('keydown', onModalMessageEscKeyDown);
-};
-
-function onModalMessageClick(evt) {
-  if (isModalOn(evt)) {
-    removeModalMessage();
-  }
-}
-
-export function onModalMessageEscKeyDown (evt) {
-  if (isEscapeKey(evt)) {
-    removeModalMessage();
-  }
-}
-
-const errorModalMessage = () => {
-  const messageErrorTemplate = document.querySelector('#error').content;
-  const element = messageErrorTemplate.cloneNode(true);
-  messageFragment.append(element);
-  picturesContainer.append(messageFragment);
-  picturesContainer.addEventListener('click', onModalMessageClick);
+const renderModalMessage = (modalElement) => {
+  document.body.append(modalElement);
+  document.addEventListener('click', onModalMessageOutsideClick);
   document.addEventListener('keydown', onModalMessageEscKeyDown);
+
+  const removeModalMessage = () => {
+    if(modalElement) {
+      modalElement.remove();
+    }
+    document.removeEventListener('click', onModalMessageOutsideClick);
+    document.removeEventListener('keydown', onModalMessageEscKeyDown);
+  };
+
+  function onModalMessageOutsideClick(evt) {
+    if (isModalOn(evt)) {
+      removeModalMessage();
+    }
+  }
+
+  function onModalMessageEscKeyDown (evt) {
+    if (isEscapeKey(evt)) {
+      removeModalMessage();
+    }
+  }
 };
 
-const successModalMessage = () => {
-  const messageSuccessTemplate = document.querySelector('#success').content;
-  const element = messageSuccessTemplate.cloneNode(true);
-  messageFragment.append(element);
-  picturesContainer.append(messageFragment);
-  picturesContainer.addEventListener('click', onModalMessageClick);
-  document.addEventListener('keydown', onModalMessageEscKeyDown);
+const openErrorModal = () => {
+  const errorModal = errorTemplate.cloneNode(true);
+  renderModalMessage(errorModal);
 };
 
-export {successModalMessage, errorModalMessage};
+const openSuccessModal = () => {
+  const successModal = successTemplate.cloneNode(true);
+  renderModalMessage(successModal);
+};
+
+export {openSuccessModal, openErrorModal};
