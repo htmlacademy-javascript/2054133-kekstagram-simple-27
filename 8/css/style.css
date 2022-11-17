@@ -1300,6 +1300,7 @@ main {
 
 .text__error {
   color: #ffe753;
+  font-weight: 700;
 }
 
 /**
