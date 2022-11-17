@@ -66,22 +66,26 @@ function onModalEscKeyDown(evt) {
   }
 }
 
+const onSendDataSucces = () => {
+  unBlockSubmitButton();
+  openSuccessModal();
+  closeUserForm();
+  resetUserFormValues();
+};
+
+const onSendDataError = () => {
+  unBlockSubmitButton();
+  openErrorModal();
+};
+
 pcitureForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
     blockSubmitButton();
     sendData(
-      () => {
-        unBlockSubmitButton();
-        openSuccessModal();
-        closeUserForm();
-        resetUserFormValues();
-      },
-      () => {
-        unBlockSubmitButton();
-        openErrorModal();
-      },
-      new FormData(evt.target),
+      onSendDataSucces,
+      onSendDataError,
+      new FormData(evt.target)
     );
   }
 });
