@@ -26,6 +26,7 @@ const renderModalMessage = (modalElement) => {
 
   function onModalMessageEscKeyDown (evt) {
     if (isEscapeKey(evt)) {
+      evt.preventDefault();
       removeModalMessage();
     }
   }
