@@ -1298,6 +1298,10 @@ main {
   opacity: 0.6;
 }
 
+.text__error {
+  color: #ffe753;
+  font-weight: 700;
+}
 
 /**
   * Экран загрузки изображения

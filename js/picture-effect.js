@@ -65,15 +65,15 @@ noUiSlider.create(slider, {
   connect: 'lower',
 });
 
-const onSliderChange = () => {
+const onSliderChange = (effect) => {
   slider.classList.remove('hidden');
   slider.noUiSlider.updateOptions(
     {range: {
-      min: choosenEffect.min,
-      max: choosenEffect.max,
+      min: effect.min,
+      max: effect.max,
     },
-    start: choosenEffect.max,
-    step: choosenEffect.step,});
+    start: effect.max,
+    step: effect.step,});
 };
 
 const changeEffect = (evt) => {
@@ -85,30 +85,28 @@ const onChangeForm = (evt) => {
     return;
   }
   changeEffect(evt);
-  onSliderChange();
+  onSliderChange(choosenEffect);
 };
 
-const isDefaultEffect = () => {
-  if(choosenEffect === DEFAULT_EFFECT) {
-    slider.classList.add('hidden');
-  }
-};
-
-const getPrewieImageEffect = () => {
+const getPrewieImageEffect = (effect) => {
   previewImage.style.filter = '';
   previewImage.className = '';
   const effectValue = slider.noUiSlider.get();
-  previewImage.style.filter = `${choosenEffect.style}(${effectValue}${choosenEffect.type})`;
-  previewImage.classList.add(`effects__preview--${choosenEffect.name}`);
+  previewImage.style.filter = `${effect.style}(${effectValue}${effect.type})`;
+  previewImage.classList.add(`effects__preview--${effect.name}`);
 };
 
 const getSliderInputValue = () => {
   input.value = slider.noUiSlider.get();
 };
 
+const isDefaultEffect = (effect) => effect === DEFAULT_EFFECT;
+
 const changeEffectSlider = () => {
-  isDefaultEffect();
-  getPrewieImageEffect();
+  if(isDefaultEffect(choosenEffect)) {
+    slider.classList.add('hidden');
+  }
+  getPrewieImageEffect(choosenEffect);
   getSliderInputValue();
 };
 
@@ -123,4 +121,3 @@ const clearEffect = () => {
 };
 
 export {clearEffect};
-
