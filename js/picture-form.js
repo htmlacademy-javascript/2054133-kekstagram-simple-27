@@ -6,8 +6,8 @@ import {openSuccessModal, openErrorModal} from './modal-message.js';
 
 const uploadFileInput = document.querySelector('.img-upload__input');
 const pageBody = document.querySelector('body');
-const modalPictureEditor = document.querySelector('.img-upload__overlay');
-const modalCloseButton = document.querySelector('.img-upload__cancel');
+const pictureEditor = document.querySelector('.img-upload__overlay');
+const closeButton = document.querySelector('.img-upload__cancel');
 const description = document.querySelector('.text__description');
 const pcitureForm = document.querySelector('.img-upload__form');
 const submitButton = document.querySelector('.img-upload__submit');
@@ -38,27 +38,30 @@ const resetUserFormValues = () => {
 };
 
 const closeUserForm = () => {
-  modalPictureEditor.classList.add('hidden');
+  pictureEditor.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   pristine.reset();
-  document.removeEventListener('keydown', onModalEscKeyDown);
+  document.removeEventListener('keydown', onDocumentEscKeyDown);
+  closeButton.removeEventListener('click', onCloseButton);
 };
 
 const openUserForm = () => {
-  modalPictureEditor.classList.remove('hidden');
+  pictureEditor.classList.remove('hidden');
   pageBody.classList.add('modal-open');
-  document.addEventListener('keydown', onModalEscKeyDown);
-  modalCloseButton.addEventListener('click', () => {
-    closeUserForm();
-    resetUserFormValues();
-  });
+  document.addEventListener('keydown', onDocumentEscKeyDown);
+  closeButton.addEventListener('click', onCloseButton);
   description.addEventListener('keydown', (evt) => evt.stopPropagation());
 };
 
-function onModalEscKeyDown(evt) {
-  const errorPopup = document.querySelector('.error');
+function onCloseButton() {
+  closeUserForm();
+  resetUserFormValues();
+}
+
+function onDocumentEscKeyDown(evt) {
+  const errorModal = document.querySelector('.error');
   if (isEscapeKey(evt)) {
-    if(!errorPopup) {
+    if(!errorModal) {
       evt.preventDefault();
       closeUserForm();
       resetUserFormValues();
@@ -93,5 +96,3 @@ pcitureForm.addEventListener('submit', (evt) => {
 uploadFileInput.addEventListener('change', () => {
   openUserForm();
 });
-
-export {onModalEscKeyDown};
