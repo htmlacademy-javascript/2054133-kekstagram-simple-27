@@ -51,6 +51,7 @@ const openUserForm = () => {
   document.addEventListener('keydown', onDocumentEscKeyDown);
   closeButton.addEventListener('click', onCloseButton);
   description.addEventListener('keydown', (evt) => evt.stopPropagation());
+  pristine.validate();
 };
 
 function onCloseButton() {
