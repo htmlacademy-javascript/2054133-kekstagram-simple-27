@@ -674,6 +674,7 @@ main {
   */
 
 .text {
+  position: relative;
   margin: 0;
   padding: 0;
   margin-bottom: 30px;
@@ -1299,6 +1300,10 @@ main {
 }
 
 .text__error {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -22px;
   color: #ffe753;
   font-weight: 700;
 }
