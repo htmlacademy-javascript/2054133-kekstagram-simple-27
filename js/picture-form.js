@@ -70,7 +70,7 @@ function onDocumentEscKeyDown(evt) {
   }
 }
 
-const onSendDataSucces = () => {
+const onSendDataSuccess = () => {
   unBlockSubmitButton();
   openSuccessModal();
   closeUserForm();
@@ -87,7 +87,7 @@ pcitureForm.addEventListener('submit', (evt) => {
   if (pristine.validate()) {
     blockSubmitButton();
     sendData(
-      onSendDataSucces,
+      onSendDataSuccess,
       onSendDataError,
       new FormData(evt.target)
     );

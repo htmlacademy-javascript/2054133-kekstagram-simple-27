@@ -1,7 +1,7 @@
 const previewImage = document.querySelector('.img-upload__preview').querySelector('img');
 const slider = document.querySelector('.effect-level__slider');
 const input = document.querySelector('.effect-level__value');
-const pcitureForm = document.querySelector('.img-upload__form');
+const pictureForm = document.querySelector('.img-upload__form');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 const EFFECTS = [
@@ -54,7 +54,7 @@ const EFFECTS = [
 ];
 
 const DEFAULT_EFFECT = EFFECTS[0];
-let choosenEffect = DEFAULT_EFFECT;
+let chosenEffect = DEFAULT_EFFECT;
 
 noUiSlider.create(slider, {
   range: {
@@ -78,7 +78,7 @@ const onSliderChange = (effect) => {
 };
 
 const changeEffect = (evt) => {
-  choosenEffect = EFFECTS.find((effect) => evt.target.value === effect.name);
+  chosenEffect = EFFECTS.find((effect) => evt.target.value === effect.name);
 };
 
 const onChangeForm = (evt) => {
@@ -86,10 +86,10 @@ const onChangeForm = (evt) => {
     return;
   }
   changeEffect(evt);
-  onSliderChange(choosenEffect);
+  onSliderChange(chosenEffect);
 };
 
-const getPrewieImageEffect = (effect) => {
+const getPreviewImageEffect = (effect) => {
   previewImage.style.filter = '';
   previewImage.className = '';
   const effectValue = slider.noUiSlider.get();
@@ -104,19 +104,19 @@ const getSliderInputValue = () => {
 const isDefaultEffect = (effect) => effect === DEFAULT_EFFECT;
 
 const onChangeEffectSlider = () => {
-  if(isDefaultEffect(choosenEffect)) {
+  if(isDefaultEffect(chosenEffect)) {
     sliderContainer.classList.add('hidden');
   }
-  getPrewieImageEffect(choosenEffect);
+  getPreviewImageEffect(chosenEffect);
   getSliderInputValue();
 };
 
 slider.noUiSlider.on('update', onChangeEffectSlider);
-pcitureForm.addEventListener('change', onChangeForm);
+pictureForm.addEventListener('change', onChangeForm);
 
 const clearEffect = () => {
-  choosenEffect = DEFAULT_EFFECT;
-  input.value = choosenEffect.max;
+  chosenEffect = DEFAULT_EFFECT;
+  input.value = chosenEffect.max;
   onChangeEffectSlider();
   document.querySelector('.effects__radio').checked = true;
 };
