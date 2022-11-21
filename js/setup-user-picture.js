@@ -1,5 +1,5 @@
 const fileChooser = document.querySelector('.img-upload__input');
-const imgagePreview = document.querySelector('.img-upload__preview img');
+const imagePreview = document.querySelector('.img-upload__preview img');
 
 const FILE_TYPES = ['.jpg', '.jpeg', '.png'];
 
@@ -10,6 +10,6 @@ fileChooser.addEventListener('change', () => {
   const matches = FILE_TYPES.some((format) => userFileName.endsWith(format));
 
   if (matches) {
-    imgagePreview.src = URL.createObjectURL(userFile);
+    imagePreview.src = URL.createObjectURL(userFile);
   }
 });

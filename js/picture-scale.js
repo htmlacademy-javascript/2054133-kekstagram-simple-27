@@ -15,20 +15,20 @@ const scaleImage = (value) => {
 
 const onButtonSmallerClick = () => {
   const currentValue = parseInt(imageInputValue.value, 10);
-  let newValue = currentValue;
-  if (newValue > MIN_SCALE) {
-    newValue -= SCALE_STEP;
+  if (currentValue > MIN_SCALE) {
+    scaleImage(currentValue - SCALE_STEP);
+  } else {
+    scaleImage(currentValue);
   }
-  scaleImage(newValue);
 };
 
 const onButtonBiggerClick = () => {
   const currentValue = parseInt(imageInputValue.value, 10);
-  let newValue = currentValue;
-  if (newValue < MAX_SCALE) {
-    newValue += SCALE_STEP;
+  if (currentValue < MAX_SCALE) {
+    scaleImage(currentValue + SCALE_STEP);
+  } else {
+    scaleImage(currentValue);
   }
-  scaleImage(newValue);
 };
 
 imageButtonScaleSmaller.addEventListener('click', onButtonSmallerClick);
