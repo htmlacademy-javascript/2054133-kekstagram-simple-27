@@ -1,9 +1,3 @@
-const previewImage = document.querySelector('.img-upload__preview').querySelector('img');
-const slider = document.querySelector('.effect-level__slider');
-const input = document.querySelector('.effect-level__value');
-const pictureForm = document.querySelector('.img-upload__form');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-
 const EFFECTS = [
   {
     name: 'none',
@@ -52,11 +46,17 @@ const EFFECTS = [
     type: '',
   },
 ];
-
 const DEFAULT_EFFECT = EFFECTS[0];
+
+const previewImageElement = document.querySelector('.img-upload__preview').querySelector('img');
+const sliderElement = document.querySelector('.effect-level__slider');
+const inputElement = document.querySelector('.effect-level__value');
+const pictureFormElement = document.querySelector('.img-upload__form');
+const sliderWrapperElement = document.querySelector('.img-upload__effect-level');
+
 let chosenEffect = DEFAULT_EFFECT;
 
-noUiSlider.create(slider, {
+noUiSlider.create(sliderElement, {
   range: {
     min: DEFAULT_EFFECT.min,
     max: DEFAULT_EFFECT.max,
@@ -67,8 +67,8 @@ noUiSlider.create(slider, {
 });
 
 const onSliderChange = (effect) => {
-  sliderContainer.classList.remove('hidden');
-  slider.noUiSlider.updateOptions(
+  sliderWrapperElement.classList.remove('hidden');
+  sliderElement.noUiSlider.updateOptions(
     {range: {
       min: effect.min,
       max: effect.max,
@@ -90,33 +90,33 @@ const onChangeForm = (evt) => {
 };
 
 const getPreviewImageEffect = (effect) => {
-  previewImage.style.filter = '';
-  previewImage.className = '';
-  const effectValue = slider.noUiSlider.get();
-  previewImage.style.filter = `${effect.style}(${effectValue}${effect.type})`;
-  previewImage.classList.add(`effects__preview--${effect.name}`);
+  previewImageElement.style.filter = '';
+  previewImageElement.className = '';
+  const effectValue = sliderElement.noUiSlider.get();
+  previewImageElement.style.filter = `${effect.style}(${effectValue}${effect.type})`;
+  previewImageElement.classList.add(`effects__preview--${effect.name}`);
 };
 
 const getSliderInputValue = () => {
-  input.value = slider.noUiSlider.get();
+  inputElement.value = sliderElement.noUiSlider.get();
 };
 
 const isDefaultEffect = (effect) => effect === DEFAULT_EFFECT;
 
 const onChangeEffectSlider = () => {
   if(isDefaultEffect(chosenEffect)) {
-    sliderContainer.classList.add('hidden');
+    sliderWrapperElement.classList.add('hidden');
   }
   getPreviewImageEffect(chosenEffect);
   getSliderInputValue();
 };
 
-slider.noUiSlider.on('update', onChangeEffectSlider);
-pictureForm.addEventListener('change', onChangeForm);
+sliderElement.noUiSlider.on('update', onChangeEffectSlider);
+pictureFormElement.addEventListener('change', onChangeForm);
 
 const clearEffect = () => {
   chosenEffect = DEFAULT_EFFECT;
-  input.value = chosenEffect.max;
+  inputElement.value = chosenEffect.max;
   onChangeEffectSlider();
   document.querySelector('.effects__radio').checked = true;
 };

@@ -1,12 +1,15 @@
+const POINT_GET = 'https://27.javascript.pages.academy/kekstagram-simple/data';
+const POINT_POST = 'https://27.javascript.pages.academy/kekstagram-simple';
+
 const getData = (onSucces, onFail) => {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple/data', {
+  fetch(POINT_GET, {
   }).then((response) => response.json())
     .then((data) => onSucces(data))
     .catch(() => onFail('Ошибка загрузки фотографий пользователей'));
 };
 
 const sendData = (onSucces, onFail, body) => {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple', {
+  fetch(POINT_POST, {
     method: 'POST',
     body,
   })
