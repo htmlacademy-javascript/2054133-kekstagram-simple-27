@@ -4,15 +4,15 @@ import {isEscapeKey} from './utils.js';
 import {sendData} from './api.js';
 import {openSuccessModal, openErrorModal} from './modal-message.js';
 
-const uploadFileInput = document.querySelector('.img-upload__input');
-const pageBody = document.querySelector('body');
-const pictureEditor = document.querySelector('.img-upload__overlay');
-const closeButton = document.querySelector('.img-upload__cancel');
-const description = document.querySelector('.text__description');
-const pcitureForm = document.querySelector('.img-upload__form');
-const submitButton = document.querySelector('.img-upload__submit');
+const uploadElement = document.querySelector('.img-upload__input');
+const pageBodyElement = document.querySelector('body');
+const pictureEditorElement = document.querySelector('.img-upload__overlay');
+const closeButtonElement = document.querySelector('.img-upload__cancel');
+const descriptionElement = document.querySelector('.text__description');
+const pcitureFormElement = document.querySelector('.img-upload__form');
+const submitButtonElement = document.querySelector('.img-upload__submit');
 
-const pristine = new Pristine(pcitureForm,
+const pristine = new Pristine(pcitureFormElement,
   {
     classTo: 'img-upload__text',
     errorTextParent: 'img-upload__text',
@@ -21,36 +21,36 @@ const pristine = new Pristine(pcitureForm,
   true);
 
 const unBlockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
 };
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Публикуем..';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Публикуем..';
 };
 
 const resetUserFormValues = () => {
-  uploadFileInput.value = '';
-  description.value = '';
+  uploadElement.value = '';
+  descriptionElement.value = '';
   resetScale();
   clearEffect();
 };
 
 const closeUserForm = () => {
-  pictureEditor.classList.add('hidden');
-  pageBody.classList.remove('modal-open');
+  pictureEditorElement.classList.add('hidden');
+  pageBodyElement.classList.remove('modal-open');
   pristine.reset();
   document.removeEventListener('keydown', onDocumentEscKeyDown);
-  closeButton.removeEventListener('click', onCloseButton);
+  closeButtonElement.removeEventListener('click', onCloseButton);
 };
 
 const openUserForm = () => {
-  pictureEditor.classList.remove('hidden');
-  pageBody.classList.add('modal-open');
+  pictureEditorElement.classList.remove('hidden');
+  pageBodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentEscKeyDown);
-  closeButton.addEventListener('click', onCloseButton);
-  description.addEventListener('keydown', (evt) => evt.stopPropagation());
+  closeButtonElement.addEventListener('click', onCloseButton);
+  descriptionElement.addEventListener('keydown', (evt) => evt.stopPropagation());
   pristine.validate();
 };
 
@@ -82,7 +82,7 @@ const onSendDataError = () => {
   openErrorModal();
 };
 
-pcitureForm.addEventListener('submit', (evt) => {
+pcitureFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
     blockSubmitButton();
@@ -94,6 +94,6 @@ pcitureForm.addEventListener('submit', (evt) => {
   }
 });
 
-uploadFileInput.addEventListener('change', () => {
+uploadElement.addEventListener('change', () => {
   openUserForm();
 });
